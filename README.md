@@ -1,7 +1,7 @@
 # Watchy-CAD
 Cases and hardware mods for Watchy
 
-![Cases](pictures/20210927_175318.jpg?raw=true)
+![Cases](Pictures/20210927_175318.jpg?raw=true)
 
 # Cases
 Cases are located under `CAD>Cases`. Each case design has the STLs under an `STLs` subfolder.
@@ -15,11 +15,11 @@ Cases are located under `CAD>Cases`. Each case design has the STLs under an `STL
 
 
 3. **Slim V3**: **Designed for a Watchy with the watch strap loops cut off from the PCB.** Similar to Slim V2, designed for 24mm NATO straps.
-![SlimV4](pictures/SlimV3/20210916_164747.jpg?raw=true)
+![SlimV4](Pictures/SlimV3/20210916_164747.jpg?raw=true)
 
 
 4. **Slim V4**: Similar to V3 , but tabs are changed to fit the spring pin -style straps of the Watchy starter kit (24mm). This lowers the height of Watchy significantly. 
-![SlimV4](pictures/SlimV4/20210927_175651.jpg?raw=true)
+![SlimV4](Pictures/SlimV4/20210927_175651.jpg?raw=true)
 
 ## Some Warnings/Notes
 **Slim V3 and Slim V4 don't have any fastening mechanisms in place; they are currently held together by friction, and a bit of double-sided tape.** I find that it works well (it's pretty difficult to take the PCB out of the case, but use at your own risk). I find that the double sided tape loses it's adhesion after sticking and removing it a few times, so it's a good idea to put a fresh piece of tape every few times you take it apart.
@@ -41,7 +41,7 @@ Also, tolerances may vary based on 3d printer.
 
 ## Cutting off PCB loops
 
-![cut tabs](pictures/cut_tabs.jpg?raw=true)
+![cut tabs](Pictures/cut_tabs.jpg?raw=true)
 
 (Guide may be coming soon)
 
@@ -54,7 +54,7 @@ Also, tolerances may vary based on 3d printer.
 5. Heatshrink.
 
 It's a good idea to do each wire separately so there's no chance that the + and - wires will ever touch.
-![shortened wire](pictures/20210927_182230.jpg?raw=true)
+![shortened wire](Pictures/20210927_182230.jpg?raw=true)
 
 ## Touchscreen
 (coming soon too hopefully hehe)
