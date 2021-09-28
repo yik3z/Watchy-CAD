@@ -4,7 +4,7 @@ Cases and hardware mods for Watchy
 ![Cases](Pictures/20210927_175318.jpg?raw=true)
 
 # Cases
-Cases are located under `CAD>Cases`. Each case design has the STLs under an `STLs` subfolder.
+Cases are located under `CAD>Cases`. Each case design has the STLs under an `STLs` subfolder and STEP (AP214) files under the `STEP` folder.
 
 ### *Slim* cases to make Watchy less chonky
 
@@ -15,11 +15,18 @@ Cases are located under `CAD>Cases`. Each case design has the STLs under an `STL
 
 
 3. **Slim V3**: **Designed for a Watchy with the watch strap loops cut off from the PCB.** Similar to Slim V2, designed for 24mm NATO straps.
+
 ![SlimV4](Pictures/SlimV3/20210916_164747.jpg?raw=true)
+
+I tried my hand at some discreet buttons on this, but they didn't work that well. **So, there aren't any buttons on this version.** I suggest you use the top case of `Slim V4` which has integrated buttons.
 
 
 4. **Slim V4**: Similar to V3 , but tabs are changed to fit the spring pin -style straps of the Watchy starter kit (24mm). This lowers the height of Watchy significantly. 
+
 ![SlimV4](Pictures/SlimV4/20210927_175651.jpg?raw=true)
+
+
+In v4, I made the display window a little larger, for use with the [border colour changing 'hack' on the Watchy Discord](https://discord.com/channels/804832182006579270/808787590060048465/887013190616117288) so that the screen looks a bit bigger/bezel looks a bit smaller. If you don't want to implement the colour changing border, make the display window a little smaller (26.8mm instead of 28.4mm) otherwise there will be a white border around your display.
 
 ## Some Warnings/Notes
 **Slim V3 and Slim V4 don't have any fastening mechanisms in place; they are currently held together by friction, and a bit of double-sided tape.** I find that it works well (it's pretty difficult to take the PCB out of the case, but use at your own risk). I find that the double sided tape loses it's adhesion after sticking and removing it a few times, so it's a good idea to put a fresh piece of tape every few times you take it apart.
@@ -28,6 +35,9 @@ Cases are located under `CAD>Cases`. Each case design has the STLs under an `STL
 **The Slim V3 and V4 may or may not close fully if you have the stock battery cable. I shortened mine so there is less wire taking up space in the case. [See below](##-shorten-battery-wires) for details.** It allows the case to be 1mm thinner.  If you don't want to cut the battery wires, you can just make the case 1mm deeper :P
 
 These cases were designed on Autodesk Inventor. The raw files are included in case you'd like to modify them. 
+
+Slim V3 and V4 parts are interchangeable (top and bottom).
+
 Also, tolerances may vary based on 3d printer.
 
 
@@ -54,6 +64,7 @@ Also, tolerances may vary based on 3d printer.
 5. Heatshrink.
 
 It's a good idea to do each wire separately so there's no chance that the + and - wires will ever touch.
+
 ![shortened wire](Pictures/20210927_182230.jpg?raw=true)
 
 ## Touchscreen
