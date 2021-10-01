@@ -1,3 +1,1 @@
-# Version 3 of Slim Case
-
-This version is for a watchy with the strap loops removed. For a smaller footprint
+# BACKUP OF Version 3 of Slim Case
