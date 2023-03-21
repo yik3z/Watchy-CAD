@@ -36,7 +36,7 @@ void setup(void)
   //pinMode(TS_INTERRUPT_PIN, INPUT);
   //pinMode(RESET_PIN, INPUT);
   Serial.begin(115200);
-  if (esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_EXT1){ // change to EXT1 later
+  if (esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_EXT1){ // not a touchscreen interrupt, i.e. it's the initial boot
     if (!ts.begin(200)) { 
       Serial.println("Unable to start touchscreen.");
     } 
