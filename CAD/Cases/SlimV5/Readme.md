@@ -1,4 +1,4 @@
 # Version 5 of Slim Case
 
-Work in progress
-This version will have a cli[pping mechanism for the top. Possibly a flexible top (printed in TPU)]
+V5 has a bigger battery: 402535 instead of 402030
+This version is for a watchy with the strap loops removed. For a smaller footprint
