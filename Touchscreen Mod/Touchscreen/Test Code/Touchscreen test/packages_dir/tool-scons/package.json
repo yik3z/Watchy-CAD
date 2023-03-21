@@ -1,0 +1,20 @@
+{
+  "name": "tool-scons",
+  "version": "4.40400.0",
+  "description": "SCons software construction tool",
+  "keywords": [
+    "build tools",
+    "build system",
+    "make",
+    "cmake",
+    "ninja",
+    "bazel",
+    "mason"
+  ],
+  "homepage": "http://www.scons.org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SCons/scons.git"
+  }
+}
