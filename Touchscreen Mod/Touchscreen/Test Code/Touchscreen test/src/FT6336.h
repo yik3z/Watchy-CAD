@@ -16,7 +16,7 @@
 //Power Modes of the display
 #define FT6336_PWR_MODE_ACTIVE        0x00  // Active Mode
 #define FT6336_PWR_MODE_MONITOR       0x01  // Monitor (Low Power) Mode
-#define FT6336_PWR_MODE_HIBERNATE     0x02  // Hibernate Mode. Display will not respond after this
+#define FT6336_PWR_MODE_HIBERNATE     0x03  // Hibernate Mode
 
 
 
@@ -64,19 +64,18 @@ public:
   FT6336(int8_t intPin = -1, int8_t rstPin = -1);
   boolean begin(uint8_t thresh = FT6336_DEFAULT_THRESHOLD);
   uint8_t touched(void);
-  //bool touchedInt(void);
   TS_Point getPoint(uint8_t n = 0);
   void setPowerMode(uint8_t);
-  bool wakePanel();
+  bool wakePanel(bool waitForReady = true);
   uint8_t getPowerMode();
   uint8_t getOperatingMode();
 
   // void autoCalibrate(void);
 
 private:
-  void writeRegister8(uint8_t reg, uint8_t val);
-  uint8_t readRegister8(uint8_t reg);
-  void readData(void);
+  void _writeRegister8(uint8_t reg, uint8_t val);
+  uint8_t _readRegister8(uint8_t reg);
+  void _readData(void);
   
   uint8_t touches;
   uint16_t touchX[2], touchY[2], touchID[2];

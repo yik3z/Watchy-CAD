@@ -32,7 +32,7 @@ RTC_DATA_ATTR uint32_t counter = 0;
 void setup(void)
 {
   Wire.begin(); // GPIO 22 (SCL) and GPIO 21 (SDA)
-  //pinMode(TS_INTERRUPT_PIN, INPUT);
+  pinMode(TS_INTERRUPT_PIN, INPUT);
   //pinMode(TS_RESET_PIN, OUTPUT);
   Serial.begin(115200);
   if (esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_EXT0){ // not a touchscreen interrupt, i.e. it's the initial boot
@@ -83,10 +83,13 @@ void setup(void)
       Serial.print("Hibernating Display. Power Mode: ");
       Serial.println(ts.getPowerMode());    
       delay(5000);
-      ts.wakePanel();
-      Serial.print("Waking Display. Power Mode: ");
-      Serial.println(ts.getPowerMode());
-
+      Serial.print("Waking Display: ");
+      if(ts.wakePanel()){
+        Serial.println("Wake Successful");
+        ts.begin(); // init after wake from hibernate
+      }else{
+        Serial.println("Wake Failed");
+      }
     }
 
     // counter++;
@@ -105,7 +108,7 @@ void setup(void)
       // Serial.print("Pwr Mode: ");
     // }
   //}  
-  while(digitalRead(TS_INTERRUPT_PIN)==HIGH); //wait for int to clear
+  while(digitalRead(TS_INTERRUPT_PIN)==LOW); //wait for int to clear
   ts.setPowerMode(FT6336_PWR_MODE_MONITOR);
   esp_sleep_enable_ext0_wakeup(TS_INTERRUPT_PIN, LOW); //enable deep sleep wake on touchscreen interrupt (TODO: change to ext1)
   esp_deep_sleep_start();

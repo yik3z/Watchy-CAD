@@ -60,42 +60,47 @@ boolean FT6336::begin(uint8_t thresh) {
   //Wire.begin();
 
   // change threshhold to be higher/lower
-  writeRegister8(FT6336_REG_THRESHHOLD, thresh);
-  //writeRegister8(FT6336_REG_AUTO_MONITOR_MODE, 0);                      // disable auto monitor mode
-  writeRegister8(FT6336_REG_TIME_ENTER_MONITOR, 1);                       // switch to monitor mode after 1s
-  writeRegister8(FT6336_REG_INT_MODE, FT6336_INT_POLL_MODE);              // set to poll mode (1 interrupt per touch event)
-  writeRegister8(FT6336_REG_POINTRATE_ACTIVE, FT6336_POINTRATE_ACTIVE);   // set active mode polling rate in ms
-  writeRegister8(FT6336_REG_POINTRATE_MONITOR, FT6336_POINTRATE_MONITOR); // set monitor mode polling rate to in ms
-
+  _writeRegister8(FT6336_REG_THRESHHOLD, thresh);
+  //_writeRegister8(FT6336_REG_AUTO_MONITOR_MODE, 0);                      // disable auto monitor mode
+  _writeRegister8(FT6336_REG_TIME_ENTER_MONITOR, 5);                       // switch to monitor mode after 1s
+  _writeRegister8(FT6336_REG_INT_MODE, FT6336_INT_POLL_MODE);              // set to poll mode (1 interrupt per touch event)
+  _writeRegister8(FT6336_REG_POINTRATE_ACTIVE, FT6336_POINTRATE_ACTIVE);   // set active mode polling rate in ms
+  _writeRegister8(FT6336_REG_POINTRATE_MONITOR, FT6336_POINTRATE_MONITOR); // set monitor mode polling rate to in ms
+  if(_readRegister8(FT6336_REG_VENDID) == 255) {
+    #ifdef DEBUG_TOUCHSCREEN
+    Serial.println("Cannot communicate with the touchscreen.");
+    #endif
+    return false;
+  }
   #ifdef DEBUG_TOUCHSCREEN
   Serial.print("Vend ID: 0x");
-  Serial.println(readRegister8(FT6336_REG_VENDID), HEX);  //0x23
+  Serial.println(_readRegister8(FT6336_REG_VENDID), HEX);  //0x23
   Serial.print("Chip ID: 0x");
-  Serial.println(readRegister8(FT6336_REG_CHIPID), HEX);  //0x33
-  Serial.print("Firm V: ");
-  Serial.println(readRegister8(FT6336_REG_FIRMVERS)); //16
+  Serial.println(_readRegister8(FT6336_REG_CHIPID), HEX);  //0x33
+  // Serial.print("Firm V: ");
+  // Serial.println(_readRegister8(FT6336_REG_FIRMVERS)); //16
   Serial.print("Point Rate (Active): ");
-  Serial.println(readRegister8(FT6336_REG_POINTRATE_ACTIVE)); //12??
+  Serial.println(_readRegister8(FT6336_REG_POINTRATE_ACTIVE)); //12??
   Serial.print("Point Rate (Monitor): ");
-  Serial.println(readRegister8(FT6336_REG_POINTRATE_MONITOR));  //70??
+  Serial.println(_readRegister8(FT6336_REG_POINTRATE_MONITOR));  //70??
   Serial.print("Auto Monitor: ");
-  Serial.println(readRegister8(FT6336_REG_AUTO_MONITOR_MODE));
+  Serial.println(_readRegister8(FT6336_REG_AUTO_MONITOR_MODE));
   Serial.print("Switch to Monitor Delay: ");
-  Serial.println(readRegister8(FT6336_REG_TIME_ENTER_MONITOR));
+  Serial.println(_readRegister8(FT6336_REG_TIME_ENTER_MONITOR));
   Serial.print("Interrupt Mode: ");
-  Serial.println(readRegister8(FT6336_REG_INT_MODE));
+  Serial.println(_readRegister8(FT6336_REG_INT_MODE));
   Serial.print("Power Mode: ");
-  Serial.println(readRegister8(FT6336_REG_PWR_MODE));
+  Serial.println(_readRegister8(FT6336_REG_PWR_MODE));
   Serial.print("Operating Mode(?): ");
-  Serial.println(readRegister8(FT6336_REG_STATE));
+  Serial.println(_readRegister8(FT6336_REG_STATE));
   Serial.print("Touch Thresh: ");
-  Serial.println(readRegister8(FT6336_REG_THRESHHOLD));
+  Serial.println(_readRegister8(FT6336_REG_THRESHHOLD));
   // dump all registers
   // for (int16_t i = 0; i < 0x10; i++) {
   //   Serial.print("I2C $");
   //   Serial.print(i, HEX);
   //   Serial.print(" = 0x");
-  //   Serial.println(readRegister8(i), HEX);
+  //   Serial.println(_readRegister8(i), HEX);
   // }
   #endif //DEBUG_TOUCHSCREEN
 
@@ -109,7 +114,7 @@ boolean FT6336::begin(uint8_t thresh) {
 */
 /**************************************************************************/
 uint8_t FT6336::touched(void) {
-  uint8_t n = readRegister8(FT6336_REG_NUMTOUCHES);
+  uint8_t n = _readRegister8(FT6336_REG_NUMTOUCHES);
   if (n > 2) {
     n = 0;
   }
@@ -131,8 +136,7 @@ uint8_t FT6336::touched(void) {
 
 // Returns the operating mode of the touchscreen
 uint8_t FT6336::getOperatingMode(void) {
-  uint8_t opMode = readRegister8(FT6336_REG_STATE); 
-  return opMode;
+  return _readRegister8(FT6336_REG_STATE);
 }
 
 /**************************************************************************/
@@ -147,7 +151,7 @@ uint8_t FT6336::getOperatingMode(void) {
 */
 /**************************************************************************/
 TS_Point FT6336::getPoint(uint8_t n) {
-  readData();
+  _readData();
   if ((touches == 0) || (n > 1)) {
     return TS_Point(0, 0, 0, 0);
   } else {
@@ -158,13 +162,13 @@ TS_Point FT6336::getPoint(uint8_t n) {
 
 // Returns the power mode of the touchscreen
 uint8_t FT6336::getPowerMode(void) {
-  uint8_t pwrMode = readRegister8(FT6336_REG_PWR_MODE); 
+  uint8_t pwrMode = _readRegister8(FT6336_REG_PWR_MODE); 
   return pwrMode;
 }
 
 /**************************************************************************/
 /*!
-    @brief  Sets the panel power mode. Hibernate does not work
+    @brief  Sets the panel power mode.
     @returns None
 */
 /**************************************************************************/
@@ -175,16 +179,17 @@ void FT6336::setPowerMode(uint8_t pwrMode) {
     #endif
     return;
   }
-  writeRegister8(FT6336_REG_PWR_MODE,pwrMode);
+  _writeRegister8(FT6336_REG_PWR_MODE,pwrMode);
 }
 
 /**************************************************************************/
 /*!
-    @brief  Wakes the panel from hibernate mode.
+    @brief  Wakes panel from hibernate mode.
+    @param waitForReady Wait for panel to be ready (i.e. block) before returning .
     @returns True if panel is successfully woken up.
 */
 /**************************************************************************/
-bool FT6336::wakePanel(void) {
+bool FT6336::wakePanel(bool waitForReady) {
   if(rstPin==-1){
     //pin not defined
     #ifdef DEBUG_TOUCHSCREEN 
@@ -199,9 +204,19 @@ bool FT6336::wakePanel(void) {
     // pinMode(rstPin, INPUT);
     digitalWrite(rstPin, LOW);
     pinMode(rstPin, OUTPUT);
-    delay(10); //between 0.5-1ms for int or >1ms for rst
+    delay(1); // 1ms for rstPin or between 0.5-1ms for intPin
     pinMode(rstPin, INPUT);
-    if(readRegister8(FT6336_REG_VENDID) != 255) return true;
+    if(waitForReady){
+      #if defined(ESP8266) || defined(ESP32)
+      esp_sleep_enable_timer_wakeup(300000); // post reset delay
+      esp_light_sleep_start();
+      #else
+      delay(300); // post reset delay
+      #endif
+      begin();
+      if(getPowerMode() == FT6336_PWR_MODE_ACTIVE) return true;
+    }
+      
   }
   return false; //change to true when it works
 }
@@ -214,7 +229,7 @@ bool FT6336::wakePanel(void) {
    {@link touchX}, {@link touchY} and {@link touchID} with results
 */
 /**************************************************************************/
-void FT6336::readData(void) {
+void FT6336::_readData(void) {
 
   uint8_t i2cdat[16];
   Wire.beginTransmission(FT6336_ADDR);
@@ -280,7 +295,7 @@ void FT6336::readData(void) {
 // #endif
 }
 
-uint8_t FT6336::readRegister8(uint8_t reg) {
+uint8_t FT6336::_readRegister8(uint8_t reg) {
   uint8_t x;
   // use i2c
   Wire.beginTransmission(FT6336_ADDR);
@@ -300,7 +315,7 @@ uint8_t FT6336::readRegister8(uint8_t reg) {
   return x;
 }
 
-void FT6336::writeRegister8(uint8_t reg, uint8_t val) {
+void FT6336::_writeRegister8(uint8_t reg, uint8_t val) {
   // use i2c
   Wire.beginTransmission(FT6336_ADDR);
   Wire.write((byte)reg);
@@ -312,14 +327,14 @@ void FT6336::writeRegister8(uint8_t reg, uint8_t val) {
 
 // DONT DO THIS - REALLY - IT DOESNT WORK
 void FT6336::autoCalibrate(void) {
- writeRegister8(FT06_REG_MODE, FT6336_REG_FACTORYMODE);
+ _writeRegister8(FT06_REG_MODE, FT6336_REG_FACTORYMODE);
  delay(100);
  //Serial.println("Calibrating...");
- writeRegister8(FT6336_REG_CALIBRATE, 4);
+ _writeRegister8(FT6336_REG_CALIBRATE, 4);
  delay(300);
  for (uint8_t i = 0; i < 100; i++) {
    uint8_t temp;
-   temp = readRegister8(FT6336_REG_MODE);
+   temp = _readRegister8(FT6336_REG_MODE);
    Serial.println(temp, HEX);
    //return to normal mode, calibration finish
    if (0x0 == ((temp & 0x70) >> 4))
@@ -328,11 +343,11 @@ void FT6336::autoCalibrate(void) {
  delay(200);
  //Serial.println("Calibrated");
  delay(300);
- writeRegister8(FT6336_REG_MODE, FT6336_REG_FACTORYMODE);
+ _writeRegister8(FT6336_REG_MODE, FT6336_REG_FACTORYMODE);
  delay(100);
- writeRegister8(FT6336_REG_CALIBRATE, 5);
+ _writeRegister8(FT6336_REG_CALIBRATE, 5);
  delay(300);
- writeRegister8(FT6336_REG_MODE, FT6336_REG_WORKMODE);
+ _writeRegister8(FT6336_REG_MODE, FT6336_REG_WORKMODE);
  delay(300);
 }
 */
