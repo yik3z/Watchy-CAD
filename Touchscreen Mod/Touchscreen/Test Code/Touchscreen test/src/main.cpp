@@ -31,11 +31,15 @@ RTC_DATA_ATTR uint32_t counter = 0;
 
 void setup(void)
 {
+
   Wire.begin(); // GPIO 22 (SCL) and GPIO 21 (SDA)
   pinMode(TS_INTERRUPT_PIN, INPUT);
-  //pinMode(TS_RESET_PIN, OUTPUT);
   Serial.begin(115200);
   if (esp_sleep_get_wakeup_cause() != ESP_SLEEP_WAKEUP_EXT0){ // not a touchscreen interrupt, i.e. it's the initial boot
+    digitalWrite(TS_RESET_PIN,LOW);
+    pinMode(TS_RESET_PIN, OUTPUT);
+    delay(6);
+    digitalWrite(TS_RESET_PIN,HIGH);
     if (!ts.begin(200)) { 
       Serial.println("Unable to start touchscreen.");
     } 
@@ -43,7 +47,7 @@ void setup(void)
       Serial.println("Touchscreen started."); 
     }
   }
-
+  Serial.println(analogRead(TS_INTERRUPT_PIN));
   //attachInterrupt(TS_INTERRUPT_PIN, touchscreenInt, RISING);
 
   //esp_sleep_enable_ext0_wakeup(INTTERUPT_PIN, 0); //enable deep sleep wake on touchscreen interrupt
@@ -109,6 +113,7 @@ void setup(void)
     // }
   //}  
   while(digitalRead(TS_INTERRUPT_PIN)==LOW); //wait for int to clear
+  //Serial.println(analogRead(TS_INTERRUPT_PIN));
   ts.setPowerMode(FT6336_PWR_MODE_MONITOR);
   esp_sleep_enable_ext0_wakeup(TS_INTERRUPT_PIN, LOW); //enable deep sleep wake on touchscreen interrupt (TODO: change to ext1)
   esp_deep_sleep_start();

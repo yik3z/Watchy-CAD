@@ -57,9 +57,7 @@ FT6336::FT6336(int8_t _intPin, int8_t _rstPin) {
 */
 /**************************************************************************/
 boolean FT6336::begin(uint8_t thresh) {
-  //Wire.begin();
-
-  // change threshhold to be higher/lower
+  //delay(400);
   _writeRegister8(FT6336_REG_THRESHHOLD, thresh);
   //_writeRegister8(FT6336_REG_AUTO_MONITOR_MODE, 0);                      // disable auto monitor mode
   _writeRegister8(FT6336_REG_TIME_ENTER_MONITOR, 5);                       // switch to monitor mode after 1s
@@ -204,11 +202,11 @@ bool FT6336::wakePanel(bool waitForReady) {
     // pinMode(rstPin, INPUT);
     digitalWrite(rstPin, LOW);
     pinMode(rstPin, OUTPUT);
-    delay(1); // 1ms for rstPin or between 0.5-1ms for intPin
+    delay(6); // 1ms for rstPin or between 0.5-1ms for intPin
     pinMode(rstPin, INPUT);
     if(waitForReady){
       #if defined(ESP8266) || defined(ESP32)
-      esp_sleep_enable_timer_wakeup(300000); // post reset delay
+      esp_sleep_enable_timer_wakeup(400000); // post reset delay
       esp_light_sleep_start();
       #else
       delay(300); // post reset delay
