@@ -1,8 +1,6 @@
 #ifndef FT6336_INTERNAL_CONFIG
 #define FT6336_INTERNAL_CONFIG
 
-#define DEBUG_TOUCHSCREEN                   // flag to print debug messages to serial
-
 #define FT6336_ADDR                   0x38  // Touchscreen I2C address
 #define FT6336_REG_NUMTOUCHES         0x02  // Number of touch points
 
@@ -19,7 +17,7 @@
 #define FT6336_REG_AUTO_MONITOR_MODE  0x86  // Get/Set Whether panel automatically switches to monitor mode. default true
 #define FT6336_REG_TIME_ENTER_MONITOR 0x87  // Get/Set the time period of switching from Active mode to Monitor mode when there is no touching, in seconds. default 10
 #define FT6336_REG_POINTRATE_ACTIVE   0x88  // Get/Set Point report interval in Active Mode, in milliseconds. default 12
-#define FT6336_POINTRATE_ACTIVE       60    // Report interval in Active Mode, in milliseconds
+#define FT6336_POINTRATE_ACTIVE       80    // Report interval in Active Mode, in milliseconds
 #define FT6336_REG_POINTRATE_MONITOR  0x89  // Get/Set Point rate in Monitor Mode, in milliseconds. default 70. Cannot be changed correctly on FT6336
 #define FT6336_POINTRATE_MONITOR      200   // Report interval in Monitor Mode, in milliseconds
 #define FT6336_REG_CHIPID             0xA3  // Get chip ID

@@ -61,8 +61,8 @@ boolean FT6336::begin(uint8_t thresh) {
 
   // change threshhold to be higher/lower
   writeRegister8(FT6336_REG_THRESHHOLD, thresh);
-  writeRegister8(FT6336_REG_AUTO_MONITOR_MODE, 0);                        // disable auto monitor mode
-  //writeRegister8(FT6336_REG_TIME_ENTER_MONITOR, 1);                     // (DISABLED) switch to monitor mode after 1s
+  //writeRegister8(FT6336_REG_AUTO_MONITOR_MODE, 0);                      // disable auto monitor mode
+  writeRegister8(FT6336_REG_TIME_ENTER_MONITOR, 1);                       // switch to monitor mode after 1s
   writeRegister8(FT6336_REG_INT_MODE, FT6336_INT_POLL_MODE);              // set to poll mode (1 interrupt per touch event)
   writeRegister8(FT6336_REG_POINTRATE_ACTIVE, FT6336_POINTRATE_ACTIVE);   // set active mode polling rate in ms
   writeRegister8(FT6336_REG_POINTRATE_MONITOR, FT6336_POINTRATE_MONITOR); // set monitor mode polling rate to in ms
@@ -164,31 +164,44 @@ uint8_t FT6336::getPowerMode(void) {
 
 /**************************************************************************/
 /*!
-    @brief  Sets the panel power mode (touches will not be registered).
-    @returns None at the moment
+    @brief  Sets the panel power mode. Hibernate does not work
+    @returns None
 */
 /**************************************************************************/
 void FT6336::setPowerMode(uint8_t pwrMode) {
+  if ((pwrMode == FT6336_PWR_MODE_HIBERNATE) && (rstPin == -1)) {
+    #ifdef DEBUG_TOUCHSCREEN 
+    Serial.println("Hibernate command ignored. No reset pin defined.");
+    #endif
+    return;
+  }
   writeRegister8(FT6336_REG_PWR_MODE,pwrMode);
 }
 
 /**************************************************************************/
 /*!
-    @brief  Wakes the panel from hibernate mode. DOES NOT WORK ATM
+    @brief  Wakes the panel from hibernate mode.
     @returns True if panel is successfully woken up.
 */
 /**************************************************************************/
 bool FT6336::wakePanel(void) {
-  if(rstPin==-1) return 0; //pin not defined
+  if(rstPin==-1){
+    //pin not defined
+    #ifdef DEBUG_TOUCHSCREEN 
+    Serial.println("Cannot wake panel. No reset pin defined");
+    #endif
+    return false;
+  } 
   else{
     // digitalWrite(rstPin, LOW);
     // pinMode(rstPin, OUTPUT);
     // delay(2); //between 0.5-1ms for int or >1ms for rst
     // pinMode(rstPin, INPUT);
-    digitalWrite(intPin, LOW);
-    pinMode(intPin, OUTPUT);
-    delayMicroseconds(600); //between 0.5-1ms for int or >1ms for rst
+    digitalWrite(rstPin, LOW);
+    pinMode(rstPin, OUTPUT);
+    delay(10); //between 0.5-1ms for int or >1ms for rst
     pinMode(rstPin, INPUT);
+    if(readRegister8(FT6336_REG_VENDID) != 255) return true;
   }
   return false; //change to true when it works
 }

@@ -9,6 +9,7 @@
 #include "Arduino.h"
 #include <Wire.h>
 
+#define DEBUG_TOUCHSCREEN                   // flag to print debug messages to serial
 
 #define FT6336_DEFAULT_THRESHOLD 128 // Default threshold for touch detection
 
@@ -17,8 +18,6 @@
 #define FT6336_PWR_MODE_MONITOR       0x01  // Monitor (Low Power) Mode
 #define FT6336_PWR_MODE_HIBERNATE     0x02  // Hibernate Mode. Display will not respond after this
 
-#define ACTIVE_POLLING_RATE   25
-#define MONITOR_POLLING_RATE  5
 
 
 enum gest{
