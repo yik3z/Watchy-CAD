@@ -202,16 +202,15 @@ bool FT6336::wakePanel(bool waitForReady) {
     // pinMode(rstPin, INPUT);
     digitalWrite(rstPin, LOW);
     pinMode(rstPin, OUTPUT);
-    delay(6); // 1ms for rstPin or between 0.5-1ms for intPin
+    delay(5); // 1ms for rstPin or between 0.5-1ms for intPin
     pinMode(rstPin, INPUT);
     if(waitForReady){
       #if defined(ESP8266) || defined(ESP32)
-      esp_sleep_enable_timer_wakeup(400000); // post reset delay
+      esp_sleep_enable_timer_wakeup(300000); // post reset delay
       esp_light_sleep_start();
       #else
       delay(300); // post reset delay
       #endif
-      begin();
       if(getPowerMode() == FT6336_PWR_MODE_ACTIVE) return true;
     }
       

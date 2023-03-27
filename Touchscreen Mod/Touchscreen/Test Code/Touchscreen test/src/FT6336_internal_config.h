@@ -24,13 +24,13 @@
 
 // Register Values
 #define FT6336_WORKMODE               0x00  // Work mode, default
-//#define FT6336_CALIBRATE              0x02  // Calibrate mode
-//#define FT6336_FACTORYMODE            0x40  // Factory mode, may be wrong according to datasheet
+//#define FT6336_CALIBRATE            0x02  // Calibrate mode
+//#define FT6336_FACTORYMODE          0x40  // Factory mode, may be wrong according to datasheet
 
-//#define FT6336_CHIPID                 0x06  // FT6336 Chip ID
-//#define FT6336_VENDID                 0x11  // FT6336 FocalTech's vendor ID
-//#define FT3267_CHIPID                 0x33  // FT3267 Chip ID
-//#define FT3267_VENDID                 0x23  // FT3267FocalTech's vendor ID
+//#define FT6336_CHIPID               0x64  // FT6336 Chip ID
+//#define FT6336_VENDID               0x11  // FT6336 FocalTech's vendor ID
+//#define FT3267_CHIPID               0x33  // FT3267 Chip ID
+//#define FT3267_VENDID               0x23  // FT3267FocalTech's vendor ID
 
 #define FT6336_INT_POLL_MODE          0x00  // Interrupt Polling mode (constant low while touch is present)
 #define FT6336_INT_TRIG_MODE          0x01  // Interrupt Trigger mode (pulse low for each data ready to be transmitted)
